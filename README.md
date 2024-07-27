@@ -1,0 +1,49 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# redcapi2b2
+
+![](redcap_i2b2_heart.jpg)
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+redcapi2b2 is an R package with functions to translate REDCap data to
+the i2b2 common data model (CDM). REDCap is a popular electronic data
+capture tool widely used in clinical research. i2b2 is a clinical data
+repository tool with a query tool and data export capabilities that
+enable users to construct complex queries and export analysis-ready
+files.
+
+## Installation
+
+You can install the development version of redcapi2b2 like so:
+
+``` r
+# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(redcapi2b2)
+## basic example code
+```
+
+Features of redcapi2b2
+
+- Tidy REDCap data and data dictionaries expanding single-choice fields
+  to multiple concepts.  
+- Support for both cross-sectional and longitudinal projects and
+  repeating forms
+- Ability to customize which REDCap fields to use for i2b2 concept
+  start_date
+- Customization of REDCap calculated fields
+- Test data with example usage
+- Support for very large REDCap projects with 90+ forms and 15K records
+- Include form sections in the i2b2 ontology and ability to customize
+  sections.
+- Construct i2b2 C_METADAXML based on REDCap text_validation to enable
+  value constraint queries.
