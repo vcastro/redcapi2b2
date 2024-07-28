@@ -4,8 +4,8 @@
 #' @param creation_datetime Creation datetime in format 01/26/2011 00:00:00
 #' @param test_id Code for the value
 #' @param test_name Came of the value
-#' @param data_type Data type of value.  Allowed data_types are: PosInteger, Integer,
-#' PosFloat, Float, Enum, or String
+#' @param data_type Data type of value.  Allowed data_types are: PosInteger,
+#' Integer, PosFloat, Float, Enum, or String
 #'@param flags_to_use Allowed valueflag_cds.  Allowed flags N, L, H, A, T.
 #'Multiple flags can be specified in a single string (ex: NLH). Set to blank
 #'string for no flag constraints.
@@ -73,7 +73,9 @@ create_metadata_xml <- function(version = "3.02",
   # UnitValues node
   unit_values_node <- XML::newXMLNode("UnitValues", parent = root)
   if (!is.null(unit_values$NormalUnits)) {
-    XML::newXMLNode("NormalUnits", unit_values$NormalUnits, parent = unit_values_node)
+    XML::newXMLNode("NormalUnits",
+                    unit_values$NormalUnits,
+                    parent = unit_values_node)
   }
   if (!is.null(unit_values$EqualUnits)) {
     for (equal_unit in unit_values$EqualUnits) {
@@ -82,16 +84,21 @@ create_metadata_xml <- function(version = "3.02",
   }
   if (!is.null(unit_values$ConvertingUnits)) {
     for (converting_unit in unit_values$ConvertingUnits) {
-      converting_unit_node <- XML::newXMLNode("ConvertingUnits", parent = unit_values_node)
-      XML::newXMLNode("Units", converting_unit$Units, parent = converting_unit_node)
+      converting_unit_node <- XML::newXMLNode("ConvertingUnits",
+                                              parent = unit_values_node)
+      XML::newXMLNode("Units",
+                      converting_unit$Units,
+                      parent = converting_unit_node)
       XML::newXMLNode("MultiplyingFactor",
-                 converting_unit$MultiplyingFactor,
-                 parent = converting_unit_node)
+                      converting_unit$MultiplyingFactor,
+                      parent = converting_unit_node)
     }
   }
   if (!is.null(unit_values$ExcludingUnits)) {
     for (excluding_unit in unit_values$ExcludingUnits) {
-      XML::newXMLNode("ExcludingUnits", excluding_unit, parent = unit_values_node)
+      XML::newXMLNode("ExcludingUnits",
+                      excluding_unit,
+                      parent = unit_values_node)
     }
   }
 

@@ -13,6 +13,3 @@ recover_adult_enrollment_inst <-
 usethis::use_data(recover_adult_enrollment_data, overwrite = TRUE)
 usethis::use_data(recover_adult_enrollment_dd, overwrite = TRUE)
 usethis::use_data(recover_adult_enrollment_inst, overwrite = TRUE)
-
-
-

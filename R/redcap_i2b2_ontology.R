@@ -73,7 +73,7 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
   if (dd |>
       dplyr::filter(!is.na(.data$section_header) &
                     .data$section_header != "") |>
-        nrow() > 0) {
+      nrow() > 0) {
     concept_staging <- dplyr::bind_rows(
       concept_staging,
       dd |>

@@ -29,8 +29,8 @@ create_metadata_xml(
 
 \item{test_name}{Came of the value}
 
-\item{data_type}{Data type of value.  Allowed data_types are: PosInteger, Integer,
-PosFloat, Float, Enum, or String}
+\item{data_type}{Data type of value.  Allowed data_types are: PosInteger,
+Integer, PosFloat, Float, Enum, or String}
 
 \item{flags_to_use}{Allowed valueflag_cds.  Allowed flags N, L, H, A, T.
 Multiple flags can be specified in a single string (ex: NLH). Set to blank

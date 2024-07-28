@@ -98,7 +98,7 @@ tidy_redcap_dictionary <- function(redcap_dd,
                          dplyr::mutate(dummy = TRUE), by = "dummy") |>
       dplyr::filter(
         .data$file_order >= .data$section_field_start &
-        .data$file_order <= .data$section_field_end
+          .data$file_order <= .data$section_field_end
       ) |>
       dplyr::select("data_field_name", "section_name", "section_cd")
 
