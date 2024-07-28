@@ -31,20 +31,12 @@ queries and export analysis-ready files.
 
 You can install the development version of redcapi2b2 like so:
 
-``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```{r install, eval=FALSE}
+remotes::install_github("vcastro/redcapi2b2")
 ```
 
-## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(redcapi2b2)
-## basic example code
-```
-
-Features of redcapi2b2
+## Features of redcapi2b2
 
 * Tidy REDCap data and data dictionaries expanding single-choice fields to 
 multiple concepts.  
@@ -58,3 +50,40 @@ multiple concepts.
 constraint queries.
 
 
+## Example
+
+A sample redcap dictionary and fictitious data from the RECOVER study are 
+included with the package.  First we tidy the dataset and dictionary and then
+we can generate i2b2 ontology and observation_fact tables.
+
+```{r example}
+library(redcapi2b2)
+
+# first tidy the redcap data dictionary
+recover_tidy_dictionary <- tidy_redcap_dictionary(
+  redcap_dd = recover_adult_enrollment_dd,
+  instrument_labels = recover_adult_enrollment_inst
+  )
+
+# tidy the redcap data
+recover_tidy_data <- tidy_redcap_data(
+  redcap_data = recover_adult_enrollment_data,
+  redcap_dd = recover_adult_enrollment_dd
+  )
+
+# build i2b2 ontology
+recover_i2b2_ontology <- redcap_i2b2_ontology(
+  redcap_tidy_dd = recover_tidy_dictionary
+  )
+
+head(recover_i2b2_ontology[,1:5], 5)
+
+# build i2b2 facts
+recover_i2b2_facts <- redcap_i2b2_facts(
+  redcap_data = recover_tidy_data,
+  redcap_i2b2_ontology = recover_i2b2_ontology,
+  date_mappings = list(enrollment= c("enroll_dt", "index_dt"))
+)
+
+head(recover_i2b2_facts[,1:5], 5)
+```
