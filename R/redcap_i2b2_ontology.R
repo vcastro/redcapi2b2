@@ -217,7 +217,10 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
       unique()
   )
 
-  concept_staging
+
+  class(concept_staging) <- c("redcap_i2b2_ontology", class(concept_staging))
+
+  return(concept_staging)
 
   ## TODO: add the rest of the ontology columns
 

@@ -23,8 +23,14 @@ redcap_i2b2_facts <- function(redcap_data,
     "redcap_data_access_group"
   )
 
+
+  if (!inherits(redcap_i2b2_ontology, "redcap_i2b2_ontology")) {
+    stop("You must pass a valid i2b2 ontology.'")
+  }
+
   #TODO: warning for data not in dd
   #TODO: check for valid dates
+  #TODO: test dates to multiple forms
 
   # iterate through columns to get R class data_types from the data.frame
   data_types <-
@@ -33,24 +39,24 @@ redcap_i2b2_facts <- function(redcap_data,
                         names_to = "data_field_name",
                         values_to = "df_data_type")
 
-  #TODO: implement date fields
-  date_fields <- redcap_data |>
-    dplyr::select(tidyselect::any_of(c(
-      redcap_default_fields, unlist(date_mappings, use.names = FALSE)
-    ))) |>
-    dplyr::mutate(
-      start_date = dplyr::coalesce(!!! rlang::syms(date_mappings$enrollment))
-    )
-
 
   form_date <- function(redcap_data,
                         form_name,
                         date_fields,
                         redcap_default_fields) {
+
+
+    date_cols <- rlang::syms(intersect(date_fields, names(redcap_data)))
+
+    if (length(date_cols) == 0) {
+      stop(stringr::str_glue("Data fields for {form_name} do not exist in the
+                             data."))
+    }
+
     redcap_data |>
       dplyr::mutate(
         form_name = form_name,
-        start_date = dplyr::coalesce(!!!rlang::syms(date_fields)),
+        start_date = dplyr::coalesce(!!!date_cols),
         start_date = lubridate::mdy_hms(.data$start_date, truncated = 3)
       ) |>
       dplyr::filter(!is.na(.data$start_date)) |>
