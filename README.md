@@ -65,19 +65,19 @@ recover_i2b2_ontology <- redcap_i2b2_ontology(
   redcap_tidy_dd = recover_tidy_dictionary
   )
 
-head(recover_i2b2_ontology[,1:5], 5)
+head(recover_i2b2_ontology[,1:4], 5)
 #>               C_BASECODE                                         C_NAME
 #> 1                   <NA>                                         REDCap
 #> 2          RC:enrollment                                     Enrollment
 #> 3           RC:record_id                                (001) Record ID
 #> 4 RC:enrollment_fversion                 (002) Enrollment form version:
 #> 5 RC:enrollment_fqueries (003) Placeholder to attach form-level queries
-#>                                    C_FULLNAME C_VISUALATTRIBUTES C_COMMENT
-#> 1                                  \\REDCap\\                 CA        NA
-#> 2                      \\REDCap\\enrollment\\                FAE        NA
-#> 3           \\REDCap\\enrollment\\record_id\\                LAE        NA
-#> 4 \\REDCap\\enrollment\\enrollment_fversion\\                LAE        NA
-#> 5 \\REDCap\\enrollment\\enrollment_fqueries\\                LAE        NA
+#>                                    C_FULLNAME C_VISUALATTRIBUTES
+#> 1                                  \\REDCap\\                 CA
+#> 2                      \\REDCap\\enrollment\\                FAE
+#> 3           \\REDCap\\enrollment\\record_id\\                LAE
+#> 4 \\REDCap\\enrollment\\enrollment_fversion\\                LAE
+#> 5 \\REDCap\\enrollment\\enrollment_fqueries\\                LAE
 ```
 
 ``` r

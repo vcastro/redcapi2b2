@@ -76,7 +76,7 @@ recover_i2b2_ontology <- redcap_i2b2_ontology(
   redcap_tidy_dd = recover_tidy_dictionary
   )
 
-head(recover_i2b2_ontology[,1:5], 5)
+head(recover_i2b2_ontology[,1:4], 5)
 
 # build i2b2 facts
 recover_i2b2_facts <- redcap_i2b2_facts(
