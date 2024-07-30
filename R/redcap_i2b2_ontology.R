@@ -5,6 +5,8 @@
 #' @param concept_cd_prefix Prefix to prepend to C_BASECODE (default: RC:)
 #' @param include_forms Forms to include in the i2b2 ontology.  The default is
 #' to include all forms
+#' @param strip_html Boolean to strip html from section_header and field_label.
+#' The default is TRUE.
 #'
 #' @return data.frame
 #' @export
@@ -12,7 +14,8 @@
 redcap_i2b2_ontology <- function(redcap_tidy_dd,
                                  project_id = "REDCap",
                                  concept_cd_prefix = "RC:",
-                                 include_forms = NA) {
+                                 include_forms = NA,
+                                 strip_html = TRUE) {
 
 
   dd <- redcap_tidy_dd |>
@@ -33,6 +36,17 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
     dd <- dd |>
       dplyr::filter(.data$form_name %in% include_forms)
   }
+
+
+  if (strip_html) {
+    dd <- dd |>
+      dplyr::mutate(
+        field_label = strip_html(.data$field_label),
+        section_header = strip_html(.data$section_header),
+        section_cd = strip_html(.data$section_cd)
+      )
+  }
+
 
   concept_staging <- NULL
 
@@ -136,22 +150,12 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
         C_METADATAXML = ifelse(
           .data$text_validation_type_or_show_slider_number == "integer" |
             grepl("number", .data$text_validation_type_or_show_slider_number),
-          stringr::str_glue(
-            '<?xml version="1.0"?><ValueMetadata><Version>3.02</Version>
-            <CreationDateTime>{Sys.time()}</CreationDateTime><TestID></TestID>
-            <TestName>{C_NAME}</TestName><DataType>Float</DataType>
-            <CodeType></CodeType><Loinc></Loinc><Flagstouse />
-            <Oktousevalues>N</Oktousevalues><MaxStringLength></MaxStringLength>
-            <LowofLowValue></LowofLowValue><HighofLowValue></HighofLowValue>
-            <LowofHighValue></LowofHighValue><HighofHighValue></HighofHighValue>
-            <LowofToxicValue></LowofToxicValue><HighofToxicValue>
-            </HighofToxicValue><EnumValues></EnumValues>
-            <CommentsDeterminingExclusion><Com></Com>
-            </CommentsDeterminingExclusion><UnitValues><NormalUnits>
-            </NormalUnits><EqualUnits></EqualUnits><ExcludingUnits>
-            </ExcludingUnits><ConvertingUnits><Units></Units><MultiplyingFactor>
-            </MultiplyingFactor></ConvertingUnits></UnitValues><Analysis>
-            <Enums /><Counts /><New /></Analysis></ValueMetadata>'
+          create_metadata_xml(
+            creation_datetime = format(Sys.time(), "%m/%d/%Y %H:%M:%S"),
+            test_id = .data$field_name,
+            test_name = .data$field_label,
+            data_type = "Float",
+            flags_to_use = ""
           ),
           NA
         ),
@@ -169,7 +173,6 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
       ) |>
       unique()
   )
-
 
 
   #LEVEL 4: FIELD_CHOICES

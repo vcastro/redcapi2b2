@@ -1,6 +1,5 @@
 strip_html <- function(html_string) {
   gsub("<[^>]*>", "", html_string)
-  return(plain_text)
 }
 
 

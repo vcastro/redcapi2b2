@@ -8,7 +8,8 @@ redcap_i2b2_ontology(
   redcap_tidy_dd,
   project_id = "REDCap",
   concept_cd_prefix = "RC:",
-  include_forms = NA
+  include_forms = NA,
+  strip_html = TRUE
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ redcap_i2b2_ontology(
 
 \item{include_forms}{Forms to include in the i2b2 ontology.  The default is
 to include all forms}
+
+\item{strip_html}{Boolean to strip html from section_header and field_label.
+The default is TRUE.}
 }
 \value{
 data.frame
