@@ -1,0 +1,38 @@
+---
+title: "Build eMERGE CDP Ontology"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Build eMERGE CDP Ontology}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(redcapi2b2)
+library(readr)
+
+
+emergecdp_redcap_dd <- readr::read_csv(system.file("examples", "emerge_cdp", "R4ClinicalDataPlatformCDP_DataDictionary_2024-06-28.csv", package="redcapi2b2"))
+
+emerge_redcap_inst <- readr::read_csv(system.file("examples", "emerge_cdp", "R4ClinicalDataPlatformCDP_inst.csv", package="redcapi2b2"))
+
+emerge_tidy_dd <- tidy_redcap_dictionary(
+  redcap_dd = emergecdp_redcap_dd,
+  instrument_labels = emerge_redcap_inst
+)
+
+emerge_i2b2_ontology <- redcap_i2b2_ontology(emerge_tidy_dd, 
+                                             project_id = "emerge_cdp",
+                                             concept_cd_prefix = "EMCDP:")
+
+
+emerge_i2b2_ontology[1:10,1:3]
+```
+

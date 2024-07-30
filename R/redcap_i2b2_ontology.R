@@ -139,7 +139,7 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
           stringr::str_glue(
             '<?xml version="1.0"?><ValueMetadata><Version>3.02</Version>
             <CreationDateTime>{Sys.time()}</CreationDateTime><TestID></TestID>
-            <TestName>{concept_name}</TestName><DataType>Float</DataType>
+            <TestName>{C_NAME}</TestName><DataType>Float</DataType>
             <CodeType></CodeType><Loinc></Loinc><Flagstouse />
             <Oktousevalues>N</Oktousevalues><MaxStringLength></MaxStringLength>
             <LowofLowValue></LowofLowValue><HighofLowValue></HighofLowValue>

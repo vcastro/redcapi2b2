@@ -15,6 +15,10 @@ tidy_redcap_dictionary <- function(redcap_dd,
                                    section_mappings = NULL,
                                    calc_field_settings = NULL) {
 
+
+  # rename fields if data dictionary downloaded from UI
+  redcap_dd <- rename_dd_column(redcap_dd)
+
   # preserve order of fields
   dd <- redcap_dd |>
     tibble::rowid_to_column(var = "file_order")
