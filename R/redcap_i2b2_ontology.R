@@ -53,13 +53,15 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
 
   #LEVEL 0
   concept_staging <- data.frame(
-    C_BASECODE = NA,
-    C_NAME = project_id,
-    C_FULLNAME = stringr::str_glue("\\{project_id}\\"),
-    C_VISUALATTRIBUTES = "CA",
-    C_COMMENT = NA,
-    C_METADATAXML = NA,
     C_HLEVEL = 1,
+    C_FULLNAME = stringr::str_glue("\\{project_id}\\"),
+    C_NAME = project_id,
+    C_SYNONYM_CD = "N",
+    C_VISUALATTRIBUTES = "CA",
+    C_TOTALNUM = NA_integer_,
+    C_BASECODE = NA_character_,
+    C_METADATAXML = NA_character_,
+    C_COMMENT = NA_character_,
     C_TOOLTIP = project_id
   )
 
@@ -114,6 +116,8 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
   }
 
 
+  create_metadata_xml_vec <- Vectorize(create_metadata_xml)
+
   #LEVEL 3: FIELDS
   concept_staging <- dplyr::bind_rows(
     concept_staging,
@@ -147,13 +151,17 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
                                     "LAE", "FAE"),
         C_HLEVEL = stringr::str_count(.data$C_FULLNAME, "\\\\") - 1,
         C_TOOLTIP = stringr::str_glue("{project_id} \\ {tooltip}"),
+        VALUETYPE_CD = ifelse(
+          .data$text_validation_type_or_show_slider_number == "integer" |
+            grepl("number", .data$text_validation_type_or_show_slider_number),
+          "N", "T"),
         C_METADATAXML = ifelse(
           .data$text_validation_type_or_show_slider_number == "integer" |
             grepl("number", .data$text_validation_type_or_show_slider_number),
-          create_metadata_xml(
+          create_metadata_xml_vec(
             creation_datetime = format(Sys.time(), "%m/%d/%Y %H:%M:%S"),
-            test_id = .data$field_name,
-            test_name = .data$field_label,
+            test_id = .data$C_BASECODE,
+            test_name = .data$C_NAME,
             data_type = "Float",
             flags_to_use = ""
           ),
@@ -223,8 +231,32 @@ redcap_i2b2_ontology <- function(redcap_tidy_dd,
 
   class(concept_staging) <- c("redcap_i2b2_ontology", class(concept_staging))
 
+  # add in all the metadata columns
+  concept_staging <- concept_staging |>
+    dplyr::mutate(C_SYNONYM_CD = "N",
+           C_TOTALNUM = NA_integer_,
+           C_FACTTABLECOLUMN = "concept_cd",
+           C_TABLENAME = "concept_dimension",
+           C_COLUMNNAME = "concept_path",
+           C_COLUMNDATATYPE = "T",
+           C_OPERATOR = "LIKE",
+           C_DIMCODE = .data$C_FULLNAME,
+           M_APPLIED_PATH = "@",
+           UPDATE_DATE = Sys.time(),
+           DOWNLOAD_DATE = Sys.time(),
+           IMPORT_DATE = Sys.time(),
+           SOURCESYSTEM_CD = project_id,
+           M_EXCLUSION_CD = "",
+           C_PATH = NA_character_,
+           C_SYMBOL = NA_character_
+           )
+
+  concept_staging <- concept_staging |>
+    dplyr::relocate(tidyselect::starts_with("i_"),
+                    .after=tidyselect::last_col())
+
   return(concept_staging)
 
-  ## TODO: add the rest of the ontology columns
+  ## TODO: reorder the columns
 
 }
