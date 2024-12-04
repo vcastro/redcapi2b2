@@ -76,7 +76,7 @@ redcap_i2b2_facts <- function(redcap_data,
       dplyr::bind_rows()
   } else {
     date_fields <- redcap_i2b2_ontology |>
-      group_by(i_form_name) |>
+      group_by(form_name) |>
       summarize(start_date = Sys.Date(), .groups = "drop")
   }
 
@@ -104,7 +104,7 @@ redcap_i2b2_facts <- function(redcap_data,
     dplyr::full_join(data_types, by = "data_field_name") |>
     dplyr::inner_join(redcap_i2b2_ontology,
                       by = c("data_field_name" = "i_data_field_name")) |>
-    dplyr::left_join(date_fields, by = c("i_form_name" = "i_form_name")) |>
+    dplyr::left_join(date_fields, by = c("i_form_name" = "form_name")) |>
     dplyr::mutate(
       i2b2_field_type =
         dplyr::case_when(
@@ -175,9 +175,9 @@ redcap_i2b2_facts <- function(redcap_data,
   for (fields in split(unique_fields, ceiling(seq_along(unique_fields) / batch_size))) {
 
     batch_result <- redcap_data_long %>%
-      filter(data_field_name %in% fields) %>%
-      inner_join(field_metadata, by = "data_field_name") %>%
-      transmute(
+      dplyr::filter(data_field_name %in% fields) %>%
+      dplyr::inner_join(field_metadata, by = "data_field_name") %>%
+      dplyr::transmute(
         PATIENT_IDE = record_id,
         PATIENT_IDE_SOURCE = project_id,
         ENCOUNTER_IDE = ifelse(
