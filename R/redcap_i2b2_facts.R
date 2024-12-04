@@ -104,7 +104,7 @@ redcap_i2b2_facts <- function(redcap_data,
     dplyr::full_join(data_types, by = "data_field_name") |>
     dplyr::inner_join(redcap_i2b2_ontology,
                       by = c("data_field_name" = "i_data_field_name")) |>
-    dplyr::left_join(date_fields, by = c("i_form_name" = "form_name")) |>
+    dplyr::left_join(date_fields, by = c("i_form_name" = "i_form_name")) |>
     dplyr::mutate(
       i2b2_field_type =
         dplyr::case_when(
