@@ -76,7 +76,7 @@ redcap_i2b2_facts <- function(redcap_data,
       dplyr::bind_rows()
   } else {
     date_fields <- redcap_i2b2_ontology |>
-      group_by(form_name) |>
+      group_by(i_form_name) |>
       summarize(start_date = Sys.Date(), .groups = "drop")
   }
 

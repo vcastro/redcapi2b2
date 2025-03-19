@@ -8,7 +8,9 @@ redcap_i2b2_facts(
   redcap_data,
   redcap_i2b2_ontology,
   project_id = "REDCap",
-  date_mappings
+  date_mappings = NA,
+  debug = FALSE,
+  batch_size = 200
 )
 }
 \arguments{

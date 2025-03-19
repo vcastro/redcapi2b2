@@ -1,7 +1,7 @@
 Package: redcapi2b2
 Type: Package
 Title: Transform REDCap data to i2b2 common data model
-Version: 0.1.0
+Version: 0.1.1
 Author: Victor Castro <vcastro@mgb.org>
 Maintainer: Victor Castro <vcastro@mgb.org>
 Description: More about what it does (maybe more than one line)

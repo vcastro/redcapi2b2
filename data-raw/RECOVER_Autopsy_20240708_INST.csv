@@ -1,0 +1,6 @@
+instrument_name,instrument_label
+enrollment,Enrollment
+first_covid_infection,First COVID Infection
+clinical_overview_part_1_autopsy_and_demographics,Clinical Overview Part 1 (Autopsy and Demographics)
+clinical_overview_part_2_comorbidities,Clinical Overview Part 2 (Comorbidities)
+clinical_overview_part_3_symptoms,Clinical Overview Part 3 (Symptoms)
